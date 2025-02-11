@@ -6,8 +6,8 @@ export interface ILine<T> {
   data: T[];
   x_key: keyof T;
   y_key: keyof T;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
   svgBackgroundColor?: string;
   useBackgroundGradient?: boolean;
   backgroundBorderRadius?: number;
@@ -51,7 +51,7 @@ const Line = <T,>({
   margin = 20,
   x_Formatter,
   y_Formatter,
-  onPressItem,
+  onPressItem = (x: T): void => console.log(x),
   tooltipFormatter,
   showTooltips = true,
   useCurve = true,
@@ -148,7 +148,7 @@ const Line = <T,>({
         //  @ts-expect-error type mismatch
         yAxisData = yAxisData.map((x) => y_Formatter(x as string));
       }
-      setYAxisLabels(yAxisData as string[]);
+      setYAxisLabels(yAxisData as unknown as string[]);
     }
   }, [data]);
 
@@ -460,10 +460,10 @@ const Line = <T,>({
       tooltipWidth = 60,
       tooltipHeight = 20,
       tooltipBorderRadius = 10,
-      tooltipFill = '#fff',
+      tooltipFill = "#fff",
       fontSize = 12,
-      fontWeight = 'bold',
-      textAnchor = 'middle',
+      fontWeight = "bold",
+      textAnchor = "middle",
     } = tooltipConfig;
 
     return data.map((item, index) => {
@@ -537,10 +537,11 @@ const Line = <T,>({
   const render_shadow = () => {
     let dPath = getDPath();
 
-    dPath += `L ${containerWidth - margin}, ${containerHeight - margin} L ${margin}, ${containerHeight - margin} Z`
-     return <path d={dPath} fill={'url(#fillshadow)'} strokeWidth={0}  />
+    dPath += `L ${containerWidth - margin}, ${
+      containerHeight - margin
+    } L ${margin}, ${containerHeight - margin} Z`;
+    return <path d={dPath} fill={"url(#fillshadow)"} strokeWidth={0} />;
   };
-
 
   // ORDER MATTERS
   return (
@@ -598,7 +599,7 @@ const Line = <T,>({
           data.length > 0 &&
           showVerticalLines &&
           render_vertical_lines()}
-          {data && data.length > 0 && useLineGradientShadow && render_shadow()}
+        {data && data.length > 0 && useLineGradientShadow && render_shadow()}
         {data && data.length > 0 && render_x_axis_ticks()}
         {data && data.length > 0 && render_x_axis_labels()}
         {data && data.length > 0 && render_y_axis_ticks()}

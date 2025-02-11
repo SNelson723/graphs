@@ -119,7 +119,7 @@ const Bar = <T,>({
         //  @ts-expect-error type mismatch
         yAxisData = yAxisData.map((x) => y_Formatter(x as string));
       }
-      setYAxisLabels(yAxisData as string[]);
+      setYAxisLabels(yAxisData as unknown as string[]);
     }
   }, [data]);
 
@@ -306,7 +306,7 @@ const Bar = <T,>({
       fontColor = "#fff",
       textAnchor = "middle",
       fontWeight = 600,
-      rotation = 0,
+      // rotation = 0,
       x_offset = 0,
       y_offset = window.innerWidth > 500 ? 0 : 30,
     } = x_axis_config;

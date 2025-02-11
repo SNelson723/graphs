@@ -18,9 +18,9 @@ const App = <T,>() => {
     <div className="bg-slate-500 h-screen">
       <div className="pt-12">
         <Line
-          data={data}
-          x_key="date"
-          y_key="sales"
+          data={data as T[]}
+          x_key={'date' as keyof T}
+          y_key={'sales' as keyof T}
           x_Formatter={x_Formatter}
           y_Formatter={y_Formatter}
           margin={55}
